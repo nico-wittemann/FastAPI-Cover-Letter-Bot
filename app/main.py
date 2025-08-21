@@ -1,7 +1,42 @@
+# Start
+# .\scripts\dev.ps1 -Port 8000
+
+# Stop (if needed)
+# .\scripts\stop.ps1 -Port 8000
+
 from fastapi import FastAPI
-from pydantic import BaseModel
+from app.routers import cv
 
 app = FastAPI(title="Cover Letter Bot")
+app.include_router(cv.router)
+
+# Root so, dass der Browser was sieht:
+@app.get("/")
+def health():
+    return {"status": "healthy"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+from pydantic import BaseModel
 
 @app.get("/")
 def root():
@@ -26,9 +61,5 @@ def generate_cover_letter(req: GenerateRequest):
         + (f"From my background: {cv_snippet}\n\n" if cv_snippet else "")
         + "Kind regards,\nNico"
     )
-    return {"cover_letter": letter}
+    return {"cover_letter": letter}"""
 
-
-
-from app.routers import cv
-app.include_router(cv.router)

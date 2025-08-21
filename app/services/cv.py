@@ -7,10 +7,21 @@ UPLOADS_DIR = BASE_DIR / "uploads"
 
 def extract_text_from_pdf_file(filename: str, max_chars: int = 8000) -> str:
     """
-    Read a PDF from <project-root>/uploads/<filename> and return its text.
-    - Only .pdf files are allowed.
-    - Only files directly inside /uploads are allowed (no subfolders).
+    Extract plain text from <project-root>/uploads/<filename>.
+
+    Reads all pages, joins with "\n", trims, then truncates to `max_chars`.
+
+    Args:
+        filename: Basename in /uploads (e.g. "CV.pdf").
+        max_chars: Max length of returned text.
+
+    Returns:
+        str: Plain text of the PDF.
+
+    Raises:
+        ValueError: Not a .pdf, not found, or path outside /uploads.
     """
+
     # Disallow path tricks like "../" or "subdir/file.pdf"
     if Path(filename).name != filename:
         raise ValueError("Use only the plain filename, no paths or subfolders.")
